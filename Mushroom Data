@@ -1,1 +1,249 @@
-{"metadata":{"kernelspec":{"language":"python","display_name":"Python 3","name":"python3"},"language_info":{"name":"python","version":"3.10.14","mimetype":"text/x-python","codemirror_mode":{"name":"ipython","version":3},"pygments_lexer":"ipython3","nbconvert_exporter":"python","file_extension":".py"},"kaggle":{"accelerator":"none","dataSources":[{"sourceId":76727,"databundleVersionId":9045607,"sourceType":"competition"}],"dockerImageVersionId":30761,"isInternetEnabled":false,"language":"python","sourceType":"notebook","isGpuEnabled":false}},"nbformat_minor":4,"nbformat":4,"cells":[{"cell_type":"code","source":"# This Python 3 environment comes with many helpful analytics libraries installed\n# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python\n# For example, here's several helpful packages to load\n\nimport numpy as np # linear algebra\nimport pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)\n\n# Input data files are available in the read-only \"../input/\" directory\n# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory\n\nimport os\nfor dirname, _, filenames in os.walk('/kaggle/input'):\n    for filename in filenames:\n        print(os.path.join(dirname, filename))\n\n# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using \"Save & Run All\" \n# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session","metadata":{"_uuid":"8f2839f25d086af736a60e9eeb907d3b93b6e0e5","_cell_guid":"b1076dfc-b9ad-4769-8c92-a6c4dae69d19","execution":{"iopub.status.busy":"2024-08-22T05:28:05.800755Z","iopub.execute_input":"2024-08-22T05:28:05.801256Z","iopub.status.idle":"2024-08-22T05:28:06.213318Z","shell.execute_reply.started":"2024-08-22T05:28:05.801208Z","shell.execute_reply":"2024-08-22T05:28:06.212083Z"},"trusted":true},"execution_count":1,"outputs":[{"name":"stdout","text":"/kaggle/input/playground-series-s4e8/sample_submission.csv\n/kaggle/input/playground-series-s4e8/train.csv\n/kaggle/input/playground-series-s4e8/test.csv\n","output_type":"stream"}]},{"cell_type":"code","source":"","metadata":{},"execution_count":null,"outputs":[]}]}
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "7bd231c7",
+   "metadata": {
+    "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
+    "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
+    "execution": {
+     "iopub.execute_input": "2024-08-22T06:17:15.695983Z",
+     "iopub.status.busy": "2024-08-22T06:17:15.695432Z",
+     "iopub.status.idle": "2024-08-22T06:17:16.146289Z",
+     "shell.execute_reply": "2024-08-22T06:17:16.145131Z"
+    },
+    "papermill": {
+     "duration": 0.459405,
+     "end_time": "2024-08-22T06:17:16.149426",
+     "exception": false,
+     "start_time": "2024-08-22T06:17:15.690021",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/kaggle/input/playground-series-s4e8/sample_submission.csv\n",
+      "/kaggle/input/playground-series-s4e8/train.csv\n",
+      "/kaggle/input/playground-series-s4e8/test.csv\n"
+     ]
+    }
+   ],
+   "source": [
+    "# This Python 3 environment comes with many helpful analytics libraries installed\n",
+    "# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python\n",
+    "# For example, here's several helpful packages to load\n",
+    "\n",
+    "import numpy as np # linear algebra\n",
+    "import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)\n",
+    "\n",
+    "# Input data files are available in the read-only \"../input/\" directory\n",
+    "# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory\n",
+    "\n",
+    "import os\n",
+    "for dirname, _, filenames in os.walk('/kaggle/input'):\n",
+    "    for filename in filenames:\n",
+    "        print(os.path.join(dirname, filename))\n",
+    "\n",
+    "# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using \"Save & Run All\" \n",
+    "# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "8e6abdff",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-08-22T06:17:16.158093Z",
+     "iopub.status.busy": "2024-08-22T06:17:16.157534Z",
+     "iopub.status.idle": "2024-08-22T06:17:16.870663Z",
+     "shell.execute_reply": "2024-08-22T06:17:16.869681Z"
+    },
+    "papermill": {
+     "duration": 0.720352,
+     "end_time": "2024-08-22T06:17:16.873660",
+     "exception": false,
+     "start_time": "2024-08-22T06:17:16.153308",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "mushroom_sample = pd.read_csv(\"/kaggle/input/playground-series-s4e8/sample_submission.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "483b58d6",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-08-22T06:17:16.881436Z",
+     "iopub.status.busy": "2024-08-22T06:17:16.880323Z",
+     "iopub.status.idle": "2024-08-22T06:17:16.902185Z",
+     "shell.execute_reply": "2024-08-22T06:17:16.901049Z"
+    },
+    "papermill": {
+     "duration": 0.028125,
+     "end_time": "2024-08-22T06:17:16.904610",
+     "exception": false,
+     "start_time": "2024-08-22T06:17:16.876485",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>id</th>\n",
+       "      <th>class</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>3116945</td>\n",
+       "      <td>e</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>3116946</td>\n",
+       "      <td>e</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>3116947</td>\n",
+       "      <td>e</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3116948</td>\n",
+       "      <td>e</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>3116949</td>\n",
+       "      <td>e</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        id class\n",
+       "0  3116945     e\n",
+       "1  3116946     e\n",
+       "2  3116947     e\n",
+       "3  3116948     e\n",
+       "4  3116949     e"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "mushroom_sample.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "7bee6fd9",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2024-08-22T06:17:16.913300Z",
+     "iopub.status.busy": "2024-08-22T06:17:16.911878Z",
+     "iopub.status.idle": "2024-08-22T06:17:24.581810Z",
+     "shell.execute_reply": "2024-08-22T06:17:24.580636Z"
+    },
+    "papermill": {
+     "duration": 7.6771,
+     "end_time": "2024-08-22T06:17:24.584825",
+     "exception": false,
+     "start_time": "2024-08-22T06:17:16.907725",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [],
+   "source": [
+    "mushroom_test = pd.read_csv(\"/kaggle/input/playground-series-s4e8/test.csv\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "databundleVersionId": 9045607,
+     "sourceId": 76727,
+     "sourceType": "competition"
+    }
+   ],
+   "dockerImageVersionId": 30761,
+   "isGpuEnabled": false,
+   "isInternetEnabled": false,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.14"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 14.529232,
+   "end_time": "2024-08-22T06:17:27.240046",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2024-08-22T06:17:12.710814",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
